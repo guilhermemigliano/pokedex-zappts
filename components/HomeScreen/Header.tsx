@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
   },
   redPoint: {
     backgroundColor: '#d86767',
-    width: 10,
-    height: 10,
+    width: 8,
+    height: 8,
     borderRadius: 5,
     position: 'absolute',
     left: 100,
