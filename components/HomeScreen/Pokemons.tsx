@@ -7,25 +7,29 @@ import {
   FlatList,
   Image,
   ImageBackground,
-  ActivityIndicator
+  ActivityIndicator,
+  TouchableOpacity
 } from 'react-native'
 import { api } from '../../api/api'
 
 import Colors from '../../constants/Colors'
 
-interface PokemonProps {
-  name: string
+export type PokemonTypeProps = keyof typeof Colors
+
+type StatePokemonTypeProps = {
+  [key in PokemonTypeProps]: string
 }
 
-const Pokemon = ({ name }: PokemonProps) => {
+const Pokemon = ({ navigation, name }: any) => {
   const [pokeData, setPokeData] = useState<any>(null)
-  const [pokemonType, setPokemonType] = useState<any>('default')
+  const [pokemonType, setPokemonType] =
+    useState<StatePokemonTypeProps>('default')
   const [isLoading, setIsLoading] = useState(true)
   const getPokemonInfo = async () => {
     try {
       const response = await api.get(`/pokemon/${name}`)
       setPokeData(response.data)
-      setPokemonType(response.data.types[0].type.name)
+      setPokemonType(response.data.types[0].type.name as StatePokemonTypeProps)
       console.log('Characteristics: ', response.data)
     } catch (err) {
       console.log(err)
@@ -54,7 +58,14 @@ const Pokemon = ({ name }: PokemonProps) => {
     )
   }
   return (
-    <View
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate('PokemonScreen', {
+          data: pokeData,
+          id: pokeData.id.toString().padStart(3, 0),
+          name: name
+        })
+      }
       style={[
         styles.wrapper,
         { backgroundColor: Colors[pokemonType].background }
@@ -106,16 +117,18 @@ const Pokemon = ({ name }: PokemonProps) => {
           />
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
-export default function Pokemons() {
+export default function Pokemons({ navigation }: any) {
   const [offset, setOffset] = useState(0)
   const [limit, setLimit] = useState(20)
   const [isLoading, setIsLoading] = useState(true)
   const [pokemons, setPokemons] = useState<any>([])
-  const renderItem = ({ item }: any) => <Pokemon name={item.name} />
+  const renderItem = ({ item }: any) => (
+    <Pokemon navigation={navigation} name={item.name} />
+  )
 
   const getPokemonList = async () => {
     try {

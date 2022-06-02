@@ -22,7 +22,7 @@ export default function HomeScreen({ navigation }: any) {
     <View style={styles.container}>
       <Header />
       <Text style={styles.title}>Qual pokémon você{'\n'}escolheria?</Text>
-      <Pokemons />
+      <Pokemons navigation={navigation} />
       <Footer />
     </View>
   )
