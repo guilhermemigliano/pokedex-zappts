@@ -23,7 +23,10 @@ export default function PokemonScreen({ navigation, route }: any) {
         types={data.types}
         color={color}
       />
-      <PokemonImage color={color} image={data.sprites.front_default} />
+      <PokemonImage
+        color={color}
+        image={data.sprites.other.dream_world.front_default}
+      />
 
       <Description color={color} id={id} description={description} />
       <PokemonInfo

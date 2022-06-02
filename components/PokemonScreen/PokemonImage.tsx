@@ -1,4 +1,5 @@
 import React from 'react'
+import { SvgUri } from 'react-native-svg'
 
 import { View, Text, StyleSheet, ImageBackground, Image } from 'react-native'
 
@@ -6,12 +7,9 @@ export default function PokemonImage({ color, image }: any) {
   console.log(image)
   return (
     <View style={styles.container}>
-      <ImageBackground
-        source={{ uri: image }}
-        resizeMode={'contain'}
-        style={styles.teste}
-      ></ImageBackground>
-      <View style={styles.pokemonColorContainer}></View>
+      <View style={styles.pokemonColorContainer}>
+        <SvgUri width="150%" height="150%" uri={image} style={styles.img} />
+      </View>
       <View style={styles.whiteContainer}></View>
     </View>
   )
@@ -36,5 +34,10 @@ const styles = StyleSheet.create({
     height: 200,
     top: -30,
     left: 50
+  },
+  img: {
+    position: 'absolute',
+    top: 0,
+    left: 0
   }
 })

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { SvgUri } from 'react-native-svg'
 
 import {
   View,
@@ -77,11 +78,6 @@ const Pokemon = ({ navigation, name }: any) => {
         { backgroundColor: getColor(pokemonType).background }
       ]}
     >
-      <ImageBackground
-        source={{ uri: pokeData && pokeData.sprites.front_default }}
-        style={styles.teste}
-        resizeMode={'contain'}
-      ></ImageBackground>
       <Text
         style={[
           styles.pokemonNumber,
@@ -119,6 +115,13 @@ const Pokemon = ({ navigation, name }: any) => {
                 )
               )}
           </View>
+        </View>
+        <View style={{ flex: 1 }}>
+          <SvgUri
+            width="100%"
+            height="100%"
+            uri={pokeData && pokeData.sprites.other.dream_world.front_default}
+          />
         </View>
       </View>
     </TouchableOpacity>
