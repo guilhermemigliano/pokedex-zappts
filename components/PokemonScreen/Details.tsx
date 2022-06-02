@@ -1,21 +1,54 @@
 import React from 'react'
 
 import { View, Text, StyleSheet } from 'react-native'
+import { getColor } from '../../constants/Colors'
 
-export default function Details() {
+const Option = ({ title, data }: any) => {
+  return (
+    <View>
+      <Text style={styles.text}>{title}:</Text>
+      <View style={styles.optionsContainer}>
+        {data.map((item: { name: string }) => {
+          return (
+            <View
+              key={Math.random()}
+              style={[
+                styles.optionContainer,
+                { backgroundColor: getColor(item.name).background }
+              ]}
+            >
+              <Text
+                style={[styles.optionText, { color: getColor(item.name).text }]}
+              >
+                {item.name}
+              </Text>
+            </View>
+          )
+        })}
+      </View>
+    </View>
+  )
+}
+
+export default function Details({ pokeWeakStrength }: any) {
+  //console.log(pokeWeakStrength)
   return (
     <View style={styles.container}>
-      <Text style={[styles.title]}>Pontos fortes e fracos</Text>
+      <Text style={[styles.title]}>Fraqueza e Resistência</Text>
       <View style={styles.descriptionContainer}>
-        <Text style={styles.text}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis
-          dapibus turpis, eu pharetra velit. Mauris pretium in nisi at gravida.
-          Vestibulum ac lectus vitae nisl molestie posuere non quis ipsum.
-          Pellentesque nisl enim, cursus a ex et, rutrum ultrices urna. Nullam
-          non tempor nulla, id consectetur erat. Nam cursus vitae leo in
-          sodales. Suspendisse et urna sem. Sed interdum justo a mauris
-          tristique, quis vestibulum lorem elementum.n
-        </Text>
+        <Option
+          title="Super fraco contra"
+          data={pokeWeakStrength.double_damage_from}
+        />
+        <Option
+          title="Super forte contra"
+          data={pokeWeakStrength.double_damage_to}
+        />
+        <Option
+          title="Resistente contra"
+          data={pokeWeakStrength.half_damage_from}
+        />
+        <Option title="Fraco contra" data={pokeWeakStrength.half_damage_to} />
       </View>
     </View>
   )
@@ -39,6 +72,22 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 12,
-    lineHeight: 24
+    fontWeight: 'bold'
+  },
+  optionsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginVertical: 2
+  },
+  optionContainer: {
+    marginHorizontal: 4,
+    borderRadius: 8,
+    paddingHorizontal: 4,
+    paddingVertical: 4,
+    marginVertical: 4
+  },
+  optionText: {
+    fontSize: 10,
+    fontWeight: 'bold'
   }
 })

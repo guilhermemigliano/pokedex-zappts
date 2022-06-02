@@ -19,6 +19,7 @@ import { getColor } from '../../constants/Colors'
 const Pokemon = ({ navigation, name }: any) => {
   const [pokeData, setPokeData] = useState<any>(null)
   const [pokemonType, setPokemonType] = useState('default')
+  const [pokeWeakStrength, setPokeWeakStrenth] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [description, setDescription] = useState<any>('')
   const getPokemonInfo = async () => {
@@ -27,9 +28,13 @@ const Pokemon = ({ navigation, name }: any) => {
       const pokemonDescription = await api.get(
         `pokemon-species/${response.data.id}/`
       )
+      const weaknessStrengths = await api.get(
+        `/type/${response.data.types[0].type.name}`
+      )
       setPokeData(response.data)
       setPokemonType(response.data.types[0].type.name)
       setDescription(pokemonDescription.data.flavor_text_entries)
+      setPokeWeakStrenth(weaknessStrengths.data.damage_relations)
     } catch (err) {
       Alert.alert('Ei, Treinador!', 'Algo saiu fora do esperado', [
         {
@@ -70,7 +75,8 @@ const Pokemon = ({ navigation, name }: any) => {
           id: pokeData.id,
           name: name,
           description: description,
-          color: getColor(pokemonType)
+          color: getColor(pokemonType),
+          pokeWeakStrength: pokeWeakStrength
         })
       }
       style={[

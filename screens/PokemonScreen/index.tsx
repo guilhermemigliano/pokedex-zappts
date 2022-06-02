@@ -9,7 +9,7 @@ import PokemonImage from '../../components/PokemonScreen/PokemonImage'
 import PokemonInfo from '../../components/PokemonScreen/PokemonInfo'
 
 export default function PokemonScreen({ navigation, route }: any) {
-  const { data, id, name, description, color } = route.params
+  const { data, id, name, description, color, pokeWeakStrength } = route.params
   //const color = data.types[0].type.name
 
   return (
@@ -36,7 +36,7 @@ export default function PokemonScreen({ navigation, route }: any) {
       />
 
       <Features features={data.stats} />
-      <Details />
+      <Details pokeWeakStrength={pokeWeakStrength} />
     </ScrollView>
   )
 }
