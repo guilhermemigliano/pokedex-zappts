@@ -1,25 +1,55 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { api } from '../../api/api'
 import Colors from '../../constants/Colors'
 
-export default function Description({ color }) {
+export default function Description({ color, id }: any) {
+  const [text, setText] = useState<any>([])
+  const [isHidden, setIsHidden] = useState(true)
+
+  const getPokemonDescription = async () => {
+    try {
+      const response = await api.get(`pokemon-species/${id}/`)
+      setText(response.data.flavor_text_entries)
+      console.log(response.data.flavor_text_entries)
+
+      //console.log(response.data.results)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    getPokemonDescription()
+  }, [])
+
   return (
     <View style={styles.container}>
       <Text style={[styles.title, { color: Colors[color].background }]}>
         Descrição
       </Text>
-      <View style={styles.descriptionContainer}>
-        <Text style={styles.text}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis
-          dapibus turpis, eu pharetra velit. Mauris pretium in nisi at gravida.
-          Vestibulum ac lectus vitae nisl molestie posuere non quis ipsum.
-          Pellentesque nisl enim, cursus a ex et, rutrum ultrices urna. Nullam
-          non tempor nulla, id consectetur erat. Nam cursus vitae leo in
-          sodales. Suspendisse et urna sem. Sed interdum justo a mauris
-          tristique, quis vestibulum lorem elementum.n
+      <View style={[styles.descriptionContainer]}>
+        <Text style={styles.text} numberOfLines={isHidden ? 3 : 0}>
+          {text.map(
+            (item: { flavor_text: any; language: { name: string } }) => {
+              if (item.language.name == 'en') {
+                return item.flavor_text.replace(/(\r\n|\n|\r|\f)/gm, ' ')
+              } else {
+                return ''
+              }
+            }
+          )}
         </Text>
       </View>
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={() => setIsHidden(!isHidden)}
+      >
+        <Text style={styles.btnText}>
+          {isHidden ? 'ver mais' : 'ver menos'}
+        </Text>
+      </TouchableOpacity>
     </View>
   )
 }
@@ -32,15 +62,34 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingHorizontal: 16,
     fontSize: 18,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    alignSelf: 'flex-start'
   },
   descriptionContainer: {
     backgroundColor: '#fff',
     marginHorizontal: 16,
-    marginVertical: 24
+    marginVertical: 2,
+    marginTop: 24
   },
+
   text: {
+    flex: 1,
     fontSize: 12,
-    lineHeight: 24
+    lineHeight: 24,
+    color: 'black'
+  },
+  btn: {
+    alignSelf: 'center',
+    width: 60,
+    marginLeft: 16,
+    marginTop: 8,
+    backgroundColor: '#f1f1f1',
+    borderRadius: 8,
+    padding: 4,
+    marginVertical: 8
+  },
+  btnText: {
+    fontSize: 10,
+    textAlign: 'center'
   }
 })

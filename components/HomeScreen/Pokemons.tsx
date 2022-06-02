@@ -62,7 +62,7 @@ const Pokemon = ({ navigation, name }: any) => {
       onPress={() =>
         navigation.navigate('PokemonScreen', {
           data: pokeData,
-          id: pokeData.id.toString().padStart(3, 0),
+          id: pokeData.id,
           name: name
         })
       }

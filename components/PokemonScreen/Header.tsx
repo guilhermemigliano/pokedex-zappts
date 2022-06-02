@@ -48,7 +48,9 @@ export default function Header({ navigation, name, id, types, color }: any) {
           </View>
         </View>
         <View>
-          <Text style={styles.pokemonNumberText}>#{id}</Text>
+          <Text style={styles.pokemonNumberText}>
+            #{id.toString().padStart(3, 0)}
+          </Text>
         </View>
       </View>
     </SafeAreaView>

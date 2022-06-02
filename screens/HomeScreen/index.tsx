@@ -7,15 +7,10 @@ import {
   TouchableOpacity,
   ActivityIndicator
 } from 'react-native'
-import { api } from '../../api/api'
+
 import Footer from '../../components/HomeScreen/Footer'
 import Header from '../../components/HomeScreen/Header'
 import Pokemons from '../../components/HomeScreen/Pokemons'
-
-interface Props {
-  name: string
-  url: string
-}
 
 export default function HomeScreen({ navigation }: any) {
   return (

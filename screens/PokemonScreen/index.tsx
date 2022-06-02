@@ -26,7 +26,7 @@ export default function PokemonScreen({ navigation, route }: any) {
       />
       <PokemonImage color={color} image={data.sprites.front_default} />
 
-      <Description color={color} />
+      <Description color={color} id={id} />
       <PokemonInfo
         height={data.height}
         weight={data.weight}
