@@ -8,31 +8,35 @@ import {
   Image,
   ImageBackground,
   ActivityIndicator,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from 'react-native'
 import { api } from '../../api/api'
 
-import Colors from '../../constants/Colors'
-
-export type PokemonTypeProps = keyof typeof Colors
-
-type StatePokemonTypeProps = {
-  [key in PokemonTypeProps]: string
-}
+import { getColor } from '../../constants/Colors'
 
 const Pokemon = ({ navigation, name }: any) => {
   const [pokeData, setPokeData] = useState<any>(null)
-  const [pokemonType, setPokemonType] =
-    useState<StatePokemonTypeProps>('default')
+  const [pokemonType, setPokemonType] = useState('default')
   const [isLoading, setIsLoading] = useState(true)
+  const [description, setDescription] = useState<any>('')
   const getPokemonInfo = async () => {
     try {
       const response = await api.get(`/pokemon/${name}`)
+      const pokemonDescription = await api.get(
+        `pokemon-species/${response.data.id}/`
+      )
       setPokeData(response.data)
-      setPokemonType(response.data.types[0].type.name as StatePokemonTypeProps)
-      console.log('Characteristics: ', response.data)
+      setPokemonType(response.data.types[0].type.name)
+      setDescription(pokemonDescription.data.flavor_text_entries)
     } catch (err) {
-      console.log(err)
+      Alert.alert('Ei, Treinador!', 'Algo saiu fora do esperado', [
+        {
+          text: 'Tentar novamente',
+          onPress: () => getPokemonInfo(),
+          style: 'cancel'
+        }
+      ])
     }
   }
 
@@ -63,19 +67,26 @@ const Pokemon = ({ navigation, name }: any) => {
         navigation.navigate('PokemonScreen', {
           data: pokeData,
           id: pokeData.id,
-          name: name
+          name: name,
+          description: description,
+          color: getColor(pokemonType)
         })
       }
       style={[
         styles.wrapper,
-        { backgroundColor: Colors[pokemonType].background }
+        { backgroundColor: getColor(pokemonType).background }
       ]}
     >
+      <ImageBackground
+        source={{ uri: pokeData && pokeData.sprites.front_default }}
+        style={styles.teste}
+        resizeMode={'contain'}
+      ></ImageBackground>
       <Text
         style={[
           styles.pokemonNumber,
           {
-            color: Colors[pokemonType].text
+            color: getColor(pokemonType).text
           }
         ]}
       >
@@ -99,7 +110,7 @@ const Pokemon = ({ navigation, name }: any) => {
                     style={[
                       styles.typeContainer,
                       {
-                        backgroundColor: Colors[pokemonType].bgSecundary
+                        backgroundColor: getColor(pokemonType).bgSecundary
                       }
                     ]}
                   >
@@ -108,13 +119,6 @@ const Pokemon = ({ navigation, name }: any) => {
                 )
               )}
           </View>
-        </View>
-
-        <View style={{ flex: 1, overflow: 'hidden' }}>
-          <Image
-            source={{ uri: pokeData && pokeData.sprites.front_default }}
-            style={styles.pokemonImg}
-          />
         </View>
       </View>
     </TouchableOpacity>
@@ -137,6 +141,13 @@ export default function Pokemons({ navigation }: any) {
       setOffset(prev => prev + 20)
       //console.log(response.data.results)
     } catch (err) {
+      Alert.alert('Ei, Treinador!', 'Algo saiu fora do esperado', [
+        {
+          text: 'Tentar novamente',
+          onPress: () => getPokemonList(),
+          style: 'cancel'
+        }
+      ])
       console.log(err)
     }
   }
@@ -194,7 +205,8 @@ const styles = StyleSheet.create({
     height: 120,
     marginHorizontal: 4,
     marginVertical: 8,
-    borderRadius: 16
+    borderRadius: 16,
+    overflow: 'hidden'
   },
   pokemonNumber: {
     marginTop: 8,
@@ -227,5 +239,12 @@ const styles = StyleSheet.create({
     width: 90,
     height: 90,
     resizeMode: 'contain'
+  },
+  teste: {
+    position: 'absolute',
+    top: 10,
+    left: 50,
+    width: '100%',
+    height: '100%'
   }
 })

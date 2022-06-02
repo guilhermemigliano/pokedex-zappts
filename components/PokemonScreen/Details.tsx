@@ -23,7 +23,8 @@ export default function Details() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    paddingVertical: 20
   },
   title: {
     backgroundColor: '#fff',

@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react'
 
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { api } from '../../api/api'
-import Colors from '../../constants/Colors'
 
-export default function Description({ color, id }: any) {
+export default function Description({ color, id, description }: any) {
   const [text, setText] = useState<any>([])
   const [isHidden, setIsHidden] = useState(true)
 
@@ -12,7 +11,6 @@ export default function Description({ color, id }: any) {
     try {
       const response = await api.get(`pokemon-species/${id}/`)
       setText(response.data.flavor_text_entries)
-      console.log(response.data.flavor_text_entries)
 
       //console.log(response.data.results)
     } catch (err) {
@@ -26,12 +24,10 @@ export default function Description({ color, id }: any) {
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.title, { color: Colors[color].background }]}>
-        Descrição
-      </Text>
+      <Text style={[styles.title, { color: color.background }]}>Descrição</Text>
       <View style={[styles.descriptionContainer]}>
         <Text style={styles.text} numberOfLines={isHidden ? 3 : 0}>
-          {text.map(
+          {description.map(
             (item: { flavor_text: any; language: { name: string } }) => {
               if (item.language.name == 'en') {
                 return item.flavor_text.replace(/(\r\n|\n|\r|\f)/gm, ' ')

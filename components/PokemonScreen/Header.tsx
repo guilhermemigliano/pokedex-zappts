@@ -9,7 +9,6 @@ import {
   SafeAreaView,
   TouchableOpacity
 } from 'react-native'
-import Colors from '../../constants/Colors'
 
 export default function Header({ navigation, name, id, types, color }: any) {
   return (
@@ -26,25 +25,20 @@ export default function Header({ navigation, name, id, types, color }: any) {
             {name.charAt(0).toUpperCase() + name.substring(1).toLowerCase()}
           </Text>
           <View style={styles.pokemonTypes}>
-            {types.map(
-              (pokemon: {
-                type: {
-                  name: string
-                }
-              }) => (
-                <View
-                  key={name + pokemon.type.name}
-                  style={[
-                    styles.typeContainer,
-                    {
-                      backgroundColor: Colors[color].bgSecundary
-                    }
-                  ]}
-                >
-                  <Text style={styles.typeText}>{pokemon.type.name}</Text>
-                </View>
-              )
-            )}
+            {types.map((pokemon: { type: { name: string } }, index: number) => (
+              <View
+                key={name + pokemon.type.name}
+                style={[
+                  styles.typeContainer,
+                  {
+                    backgroundColor: color.bgSecundary,
+                    marginLeft: index > 0 ? 8 : 0
+                  }
+                ]}
+              >
+                <Text style={styles.typeText}>{pokemon.type.name}</Text>
+              </View>
+            ))}
           </View>
         </View>
         <View>
@@ -79,12 +73,12 @@ const styles = StyleSheet.create({
   },
   typeContainer: {
     marginVertical: 4,
-    marginHorizontal: 4,
+    marginHorizontal: 0,
     borderRadius: 16
   },
   typeText: {
     textAlign: 'center',
-    fontSize: 14,
+    fontSize: 12,
     paddingVertical: 4,
     paddingHorizontal: 8,
     color: '#fff'

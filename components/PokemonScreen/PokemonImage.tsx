@@ -8,18 +8,17 @@ export default function PokemonImage({ color, image }: any) {
     <View style={styles.container}>
       <ImageBackground
         source={{ uri: image }}
-        style={styles.img}
         resizeMode={'contain'}
-      >
-        <View style={styles.pokemonColorContainer}></View>
-        <View style={styles.whiteContainer}></View>
-      </ImageBackground>
+        style={styles.teste}
+      ></ImageBackground>
+      <View style={styles.pokemonColorContainer}></View>
+      <View style={styles.whiteContainer}></View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: { height: 150 },
 
   pokemonColorContainer: {
     height: 100
@@ -30,5 +29,12 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     zIndex: -1
+  },
+  teste: {
+    position: 'absolute',
+    width: 300,
+    height: 200,
+    top: -30,
+    left: 50
   }
 })

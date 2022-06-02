@@ -7,15 +7,14 @@ import Features from '../../components/PokemonScreen/Features'
 import Header from '../../components/PokemonScreen/Header'
 import PokemonImage from '../../components/PokemonScreen/PokemonImage'
 import PokemonInfo from '../../components/PokemonScreen/PokemonInfo'
-import Colors from '../../constants/Colors'
 
 export default function PokemonScreen({ navigation, route }: any) {
-  const { data, id, name } = route.params
-  const color = data.types[0].type.name
+  const { data, id, name, description, color } = route.params
+  //const color = data.types[0].type.name
 
   return (
     <ScrollView
-      style={[styles.container, { backgroundColor: Colors[color].background }]}
+      style={[styles.container, { backgroundColor: color.background }]}
     >
       <Header
         name={name}
@@ -26,7 +25,7 @@ export default function PokemonScreen({ navigation, route }: any) {
       />
       <PokemonImage color={color} image={data.sprites.front_default} />
 
-      <Description color={color} id={id} />
+      <Description color={color} id={id} description={description} />
       <PokemonInfo
         height={data.height}
         weight={data.weight}
