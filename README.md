@@ -4,7 +4,7 @@ Aplicação desenvolvida para o processo seletivo da empresa Zappts.
 
 ## Demonstração
 
-![](https://github.com/guilhermemigliano/pokedex-zappts/blob/main/assets/images/Simulator-Screen-Recording-iPhone-12-2022-06-02-at-19.27.58.gif?raw=true)
+![](https://github.com/guilhermemigliano/pokedex-zappts/blob/main/assets/images/demonstracao.gif?raw=true)
 
 ## Ferramentas utilizadas
 
